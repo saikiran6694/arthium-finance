@@ -58,7 +58,7 @@ const ScheduleReportForm = ({
     if (user && reportSetting) {
       form.reset({
         email: user?.email,
-        isEnabled: reportSetting?.isEnabled,
+        isEnabled: reportSetting?.is_enabled,
         frequency: reportSetting?.frequency,
       });
     }
@@ -66,7 +66,7 @@ const ScheduleReportForm = ({
 
   // Handle form submission
   const onSubmit = (values: FormValues) => {
-    const payload = { isEnabled: values.isEnabled };
+    const payload = { is_enabled: values.isEnabled };
     updateReportSetting(payload)
       .unwrap()
       .then(() => {
