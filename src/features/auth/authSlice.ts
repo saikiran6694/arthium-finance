@@ -37,7 +37,7 @@ const authSlice = createSlice({
       const now = Date.now();
 
       state.access_token = action.payload.access_token;
-      state.expires_at = now + action.payload.expires_in;
+      state.expires_at = now + action.payload.expires_in * 1000;
       state.refresh_token = action.payload.refresh_token;
       state.user = action.payload.user;
       state.reportSetting = action.payload.report_settings;
@@ -48,7 +48,7 @@ const authSlice = createSlice({
       const { access_token, expires_in } = action.payload;
 
       if (access_token) state.access_token = access_token;
-      if (expires_in) state.expires_at = now + expires_in;
+      if (expires_in) state.expires_at = now + expires_in * 1000;
     },
 
     logout: (state) => {

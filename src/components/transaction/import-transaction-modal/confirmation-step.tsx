@@ -141,6 +141,7 @@ const ConfirmationStep = ({
     let hasValidationErrors = false;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const results: Partial<any>[] = [];
+    const newErrors: Record<string, string> = {};
 
     csvData.forEach((row, index) => {
       const transaction: Record<string, string> = {};
@@ -174,12 +175,10 @@ const ConfirmationStep = ({
                 })
                 .join("\n")
             : "Invalid data";
-        setErrors((prev) => ({
-          ...prev,
-          [index + 1]: message,
-        }));
+        newErrors[index + 1] = message;
       }
     });
+    setErrors(newErrors);
     return { transactions: results, hasValidationErrors };
   };
 

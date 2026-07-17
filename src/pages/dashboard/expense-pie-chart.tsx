@@ -38,9 +38,10 @@ const chartConfig = {
 const ExpensePieChart = (props: { dateRange?: DateRangeType }) => {
   const { dateRange } = props;
 
-  const { data, isFetching } = useExpensePieChartBreakdownQuery({
-    preset: dateRange?.value,
-  });
+  const { data, isFetching } = useExpensePieChartBreakdownQuery(
+    { preset: dateRange?.value },
+    { skip: !dateRange }
+  );
   const categories = data?.stats?.breakdown || [];
   const totalSpent = data?.stats?.total_spent || 0;
 
