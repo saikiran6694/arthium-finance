@@ -46,9 +46,10 @@ const DashboardDataChart: React.FC<PropsType> = (props) => {
   const { dateRange } = props;
   const isMobile = useIsMobile();
 
-  const { data, isFetching } = useChartAnalyticsQuery({
-    preset: dateRange?.value,
-  });
+  const { data, isFetching } = useChartAnalyticsQuery(
+    { preset: dateRange?.value },
+    { skip: !dateRange }
+  );
   const chartData = data?.stats?.chart_data || [];
   const totalExpenseCount = data?.stats?.total_expense_count || 0;
   const totalIncomeCount = data?.stats?.total_income_count || 0;
