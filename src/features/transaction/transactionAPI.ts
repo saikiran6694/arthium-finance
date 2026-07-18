@@ -1,6 +1,6 @@
 import { apiClient } from "@/app/api-client";
 import {
-  AIScanReceiptResponse,
+  AIScanReceiptData,
   BulkImportTransactionPayload,
   CreateTransactionBody,
   GetAllTransactionParams,
@@ -20,7 +20,7 @@ export const transactionApi = apiClient.injectEndpoints({
       invalidatesTags: ["transactions", "analytics"],
     }),
 
-    aiScanReceipt: builder.mutation<AIScanReceiptResponse, FormData>({
+    aiScanReceipt: builder.mutation<AIScanReceiptData, FormData>({
       query: (formData) => ({
         url: "/transaction/scan-receipt",
         method: "POST",
@@ -103,9 +103,7 @@ export const transactionApi = apiClient.injectEndpoints({
       query: (transactionIds) => ({
         url: "/transaction/bulk-delete",
         method: "DELETE",
-        body: {
-          transactionIds,
-        },
+        body: transactionIds,
       }),
       invalidatesTags: ["transactions", "analytics"],
     }),

@@ -10,7 +10,7 @@ export const reportApi = apiClient.injectEndpoints({
         return ({
           url: "/report/all",
           method: "GET",
-          params: { pageNumber, pageSize },
+          params: { page_number: pageNumber, page_size: pageSize },
         });
       },
     }),

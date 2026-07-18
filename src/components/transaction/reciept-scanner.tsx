@@ -44,7 +44,7 @@ const ReceiptScanner = ({
       return;
     }
     const formData = new FormData();
-    formData.append("receipt", file);
+    formData.append("file", file);
 
     startProgress(10);
     onLoadingChange(true);
@@ -67,7 +67,7 @@ const ReceiptScanner = ({
         .unwrap()
         .then((res) => {
           updateProgress(100);
-          onScanComplete(res.data);
+          onScanComplete(res);
           toast.success("Receipt scanned successfully");
         })
         .catch((error) => {
