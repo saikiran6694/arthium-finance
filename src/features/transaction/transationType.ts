@@ -63,7 +63,7 @@ export interface AIScanReceiptData {
   category: string;
   payment_method: string;
   type: "INCOME" | "EXPENSE";
-  receip_url: string;
+  receipt_url: string;
 }
 
 export interface AIScanReceiptResponse {
@@ -71,10 +71,7 @@ export interface AIScanReceiptResponse {
   data: AIScanReceiptData;
 }
 
-export interface GetSingleTransactionResponse {
-  message: string;
-  transaction: TransactionType;
-}
+export type GetSingleTransactionResponse = TransactionType;
 
 export interface UpdateTransactionPayload {
   id: string;

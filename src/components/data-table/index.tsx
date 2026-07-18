@@ -136,7 +136,7 @@ export function DataTable<TData>({
 
   const handleDelete = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const selectedIds = selectedRows.map((row) => (row.original as any).id);
+    const selectedIds = selectedRows.map((row) => (row.original as any)._id);
     onBulkDelete?.(selectedIds);
     setRowSelection({});
   };
