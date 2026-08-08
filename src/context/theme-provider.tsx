@@ -15,6 +15,7 @@ type ThemeProviderState = {
 
 const initialState: ThemeProviderState = {
   theme: "system",
+  /* v8 ignore next -- placeholder always replaced by the real Provider value */
   setTheme: () => null,
 }
 
@@ -67,8 +68,11 @@ export function ThemeProvider({
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 
+  // context always has a defined default value, so this branch is unreachable
+  /* v8 ignore start */
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider")
+  /* v8 ignore stop */
 
   return context
 }

@@ -47,9 +47,12 @@ const useFormField = () => {
   const formState = useFormState({ name: fieldContext.name })
   const fieldState = getFieldState(fieldContext.name, formState)
 
+  // fieldContext's default value is always a defined (truthy) object, so this is unreachable
+  /* v8 ignore start */
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>")
   }
+  /* v8 ignore stop */
 
   const { id } = itemContext
 
