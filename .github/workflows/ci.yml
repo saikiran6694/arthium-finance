@@ -26,7 +26,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
       - run: npm run lint
 
   typecheck:
@@ -38,7 +41,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
       - run: npm run typecheck
 
   test:
@@ -50,7 +56,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
       - run: npm run test:coverage
       - name: Upload coverage report
         if: always()
@@ -70,5 +79,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
       - run: npm run build
