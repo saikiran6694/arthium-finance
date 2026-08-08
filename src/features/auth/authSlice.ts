@@ -21,6 +21,21 @@ interface ReportSetting {
   is_enabled: boolean;
 }
 
+interface SetCredentialsPayload {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  user: User | null;
+  report_settings: ReportSetting | null;
+}
+
+interface UpdateCredentialsPayload {
+  access_token?: string;
+  expires_in?: number;
+  user?: Partial<User>;
+  reportSetting?: Partial<ReportSetting>;
+}
+
 const initialState: AuthState = {
   access_token: null,
   expires_at: null,
@@ -33,7 +48,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action: PayloadAction<any>) => {
+    setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
       const now = Date.now();
 
       state.access_token = action.payload.access_token;
@@ -43,17 +58,23 @@ const authSlice = createSlice({
       state.reportSetting = action.payload.report_settings;
     },
 
-    updateCredentials: (state, action: PayloadAction<any>) => {
+    updateCredentials: (
+      state,
+      action: PayloadAction<UpdateCredentialsPayload>
+    ) => {
       const now = Date.now();
       const { access_token, expires_in, user, reportSetting } = action.payload;
 
       if (access_token) state.access_token = access_token;
       if (expires_in) state.expires_at = now + expires_in;
-      if (user) state.user = state.user ? { ...state.user, ...user } : user;
+      if (user)
+        state.user = state.user
+          ? { ...state.user, ...user }
+          : (user as User);
       if (reportSetting)
         state.reportSetting = state.reportSetting
           ? { ...state.reportSetting, ...reportSetting }
-          : reportSetting;
+          : (reportSetting as ReportSetting);
     },
 
     logout: (state) => {

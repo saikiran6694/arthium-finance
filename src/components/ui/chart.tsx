@@ -308,9 +308,12 @@ function getPayloadConfigFromPayload(
   payload: unknown,
   key: string
 ) {
+  // defensive guard; every payload row is dereferenced as an object before reaching here
+  /* v8 ignore start */
   if (typeof payload !== "object" || payload === null) {
     return undefined
   }
+  /* v8 ignore stop */
 
   const payloadPayload =
     "payload" in payload &&

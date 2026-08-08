@@ -21,7 +21,9 @@ const AppLayout = () => {
       const next = !prev;
       try {
         localStorage.setItem(SIDEBAR_KEY, JSON.stringify(next));
-      } catch {}
+      } catch {
+        // ignore write failures (e.g. storage disabled or full)
+      }
       return next;
     });
   };

@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Not sensitive: VITE_API_URL is the public API base URL baked into the client
+  # bundle at build time, and VITE_REDUX_PERSIST_SECRET_KEY only encrypts the
+  # locally-persisted Redux state in each browser session, not anything server-side.
+  VITE_API_URL: https://financial-platform-fastapi.onrender.com/api
+  VITE_REDUX_PERSIST_SECRET_KEY: ci-test-secret-key
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
+      - run: npm run lint
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
+      - run: npm run typecheck
+
+  test:
+    name: Test + coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
+      - run: npm run test:coverage
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # react-day-picker@8's peer range (React ^16-18) predates React 19, which
+      # this project uses; --legacy-peer-deps mirrors how deps are installed
+      # locally until react-day-picker (or an alternative) adds React 19 support.
+      - run: npm ci --legacy-peer-deps
+      - run: npm run build
