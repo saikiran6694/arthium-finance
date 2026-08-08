@@ -67,11 +67,14 @@ const authSlice = createSlice({
 
       if (access_token) state.access_token = access_token;
       if (expires_in) state.expires_at = now + expires_in;
-      if (user) state.user = state.user ? { ...state.user, ...user } : user;
+      if (user)
+        state.user = state.user
+          ? { ...state.user, ...user }
+          : (user as User);
       if (reportSetting)
         state.reportSetting = state.reportSetting
           ? { ...state.reportSetting, ...reportSetting }
-          : reportSetting;
+          : (reportSetting as ReportSetting);
     },
 
     logout: (state) => {
