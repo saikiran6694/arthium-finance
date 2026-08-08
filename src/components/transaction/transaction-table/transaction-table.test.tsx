@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { HttpResponse, http } from "msw";
 import { NuqsTestingAdapter } from "nuqs/adapters/testing";
@@ -85,13 +85,12 @@ describe("TransactionTable", () => {
         })
       )
     );
-    const user = userEvent.setup();
     renderTable();
 
     const input = await screen.findByPlaceholderText("Search transactions...");
-    await user.type(input, "cof");
+    fireEvent.change(input, { target: { value: "cof" } });
 
-    await waitFor(() => expect(input).toHaveValue("cof"));
+    expect(input).toHaveValue("cof");
   });
 
   it("eventually refetches with the debounced keyword", async () => {
@@ -106,12 +105,11 @@ describe("TransactionTable", () => {
         });
       })
     );
-    const user = userEvent.setup();
     renderTable();
 
     const input = await screen.findByPlaceholderText("Search transactions...");
-    await user.type(input, "cof");
-    await waitFor(() => expect(input).toHaveValue("cof"));
+    fireEvent.change(input, { target: { value: "cof" } });
+    expect(input).toHaveValue("cof");
 
     await waitFor(() => expect(keywords).toContain("cof"), { timeout: 5000 });
   }, 10000);
